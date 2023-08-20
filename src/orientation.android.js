@@ -8,8 +8,7 @@
 
 "use strict";
 const OrientationNative = require("react-native").NativeModules.Orientation;
-const { NativeEventEmitter } = require("react-native");
-let LocalEventEmitter;
+const LocalEventEmitter = require('react-native').DeviceEventEmitter;
 
 var listeners = {};
 
@@ -88,8 +87,6 @@ export default class Orientation {
 
   static addOrientationListener = (cb) => {
     var key = getKey(cb);
-    LocalEventEmitter =
-      LocalEventEmitter ?? new NativeEventEmitter(OrientationNative);
     listeners[key] = LocalEventEmitter.addListener(
       "orientationDidChange",
       (body) => {
@@ -109,8 +106,6 @@ export default class Orientation {
 
   static addDeviceOrientationListener = (cb) => {
     var key = getKey(cb);
-    LocalEventEmitter =
-      LocalEventEmitter ?? new NativeEventEmitter(OrientationNative);
     listeners[key] = LocalEventEmitter.addListener(
       "deviceOrientationDidChange",
       (body) => {
@@ -130,8 +125,6 @@ export default class Orientation {
 
   static addLockListener = (cb) => {
     var key = getKey(cb);
-    LocalEventEmitter =
-      LocalEventEmitter ?? new NativeEventEmitter(OrientationNative);
     listeners[key] = LocalEventEmitter.addListener("lockDidChange", (body) => {
       cb(body.orientation);
     });
